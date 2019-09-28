@@ -1,0 +1,1 @@
+/usr/bin/g++  -g   CMakeFiles/temp.dir/main.cpp.o  -o temp 
