@@ -11,9 +11,11 @@
 #include <stdlib.h>
 #include <time.h>
 #include <cstdlib>
+#include <iostream>
 
 class cpu{
-private:
+
+public:
     int program_counter; // PC
     int stack_pointer; // SP
     int instruction_register; // IR
@@ -21,33 +23,33 @@ private:
     int y_reg; // y register
     int ac; // accumulator
 
-    // maybe a var to hold a memory class
-
     int instruction;
-    std::ifstream input;
-public:
-    cpu(std::string input_file);
+    int interrupt_timer;
+    int timer;
+    bool interrputed;
+    bool kernelMode;
+
+    cpu(int int_timer);
     ~cpu() {
 
     }
+    int getPC();
+    void incTimer();
+    bool interrputTime();
+    bool isInterrput();
 
-    void run();
 
-
-    void fetch(); // grabs next instruction
-    void execute(); // runs next instruction loaded
-
-    void load_value(); // load value into the ac (accumulator)
+    void load_value(int value); // load value into the ac (accumulator)
     void load_addr(); // load address of
     void loadInd_addr();
-    void loadIdxX_addr(); // Load the value at (address+X) into the AC
-                            //(for example, if LoadIdxX 500, and X contains 10, then load from 510).
-    void loadIdxY_addr(); // Load the value at (address+Y) into the AC
+    void loadIdxX_addr(int addr); // Load the value at (address+X) into the AC
+    //(for example, if LoadIdxX 500, and X contains 10, then load from 510).
+    void loadIdxY_addr(int addr); // Load the value at (address+Y) into the AC
     void loadSpX(); // Load from(Sp+X) into the AC (if SP is 990 and X is 1, load from 991)
     void store_addr(); // store the value in the AC into the address
     void get(); // get a random int from 1 to 100 into the AC
-    void put_port(); // if port = 1 write AC as an int to the screen
-                        // if port = 2, write AC as a char to the screen
+    void put_port(int port); // if port = 1 write AC as an int to the screen
+    // if port = 2, write AC as a char to the screen
     void addx(); // add the value X to the AC
     void addy(); // add the value Y to the AC
     void subx(); // sub the value in X from the AC
@@ -58,18 +60,18 @@ public:
     void copy_from_y(); // copy value in Y to AC
     void copy_to_sp(); // copy value in AC to SP
     void copy_from_sp(); // copy value in SP toAC
-    void jump_addr(); // jump to address
-    void jump_if_equal(); // jump to address if equal
-    void jump_not_equal(); //jump to address if NOT equal
-    void call_addr(); // Push return address onto stack, jump to addr
+    void jump_addr(int addr); // jump to address
+    void jump_if_equal(int addr); // jump to address if equal
+    void jump_not_equal(int addr); //jump to address if NOT equal
+    void call_addr(int addr); // Push return address onto stack, jump to addr
     void ret(); // pop return address from stack, jump to address
     void incx(); // increment x
     void decx(); // decrement x
-    void pushAC(); // push AC onto stack
-    void popAC(); // Pop from stack into AC
+    int pushAC(); // push AC onto stack
+    void popAC(int accum); // Pop from stack into AC
     void syscall(); // perform system call
-    void retsyscall(); // return from system call
-    void end(); // end program
+    void retsyscall(int sp, int pc); // return from system call
+
 
 
 };

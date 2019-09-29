@@ -10,6 +10,13 @@
 #include <sstream>
 #include <climits>
 #include <iostream>
+#include <algorithm>
+#include <functional>
+#include <cctype>
+#include <locale>
+static inline std::string &ltrim(std::string &s);
+static inline std::string &rtrim(std::string &s);
+static inline std::string &trim(std::string &s);
 
 class memory {
 private:
@@ -18,8 +25,8 @@ private:
 public:
     memory(std::string input);
     void print();
-    int read(int address);
-    void write(int address, int data);
+    int readMem(int address);
+    void writeMem(int address, int data);
 
 };
 

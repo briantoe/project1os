@@ -5,97 +5,33 @@
 
 #include "cpu.h"
 
-cpu::cpu(std::string input_file) {
-    input.open(input_file);
+cpu::cpu(int int_timer) {
+
+    interrupt_timer = int_timer;
+    stack_pointer = 999;
+    x_reg = 0;
+    y_reg = 0;
+    program_counter = 0;
+    timer = 0;
+    interrputed = 0;
+    kernelMode = 0;
 }
 
-void cpu::run() {
+void cpu::incTimer() {
+    timer += 1;
+}
+bool cpu::interrputTime() {
 
-    while (!input.eof()) {
-        this->fetch();
-        this->execute();
-    }
+    return ((timer % interrupt_timer) == 0 && (timer != 0));
+}
+bool cpu::isInterrput() {
+    return interrputed;
 }
 
-void cpu::fetch() {
-//    cout << instruction << endl;
-    input >> instruction;
-    input.ignore(UINT_MAX, '\n');
-}
+void cpu::load_value(int value) { // 1
+    ac = value;
 
-void cpu::execute() {
-    switch (instruction) {
-        case 1:
-            load_value();
-        case 2:
-            load_addr();
-        case 3:
-            loadInd_addr();
-        case 4:
-            loadIdxX_addr();
-        case 5:
-            loadIdxY_addr();
-        case 6:
-            loadSpX();
-        case 7:
-            store_addr();
-        case 8:
-            get();
-        case 9:
-            put_port();
-        case 10:
-            addx();
-        case 11:
-            addy();
-        case 12:
-            subx();
-        case 13:
-            suby();
-        case 14:
-            copy_to_x();
-        case 15:
-            copy_from_x();
-        case 16:
-            copy_to_y();
-        case 17:
-            copy_from_y();
-        case 18:
-            copy_to_sp();
-        case 19:
-            copy_from_sp();
-        case 20:
-            jump_addr();
-        case 21:
-            jump_if_equal();
-        case 22:
-            jump_not_equal();
-        case 23:
-            call_addr();
-        case 24:
-            ret();
-        case 25:
-            incx();
-        case 26:
-            decx();
-        case 27:
-            pushAC();
-        case 28:
-            popAC();
-        case 29:
-            syscall();
-        case 30:
-            retsyscall();
-        case 50:
-            end();
-    }
-}
-
-void cpu::load_value() { // 1
-    int tmp;
-    input >> tmp;
-    ac = tmp;
-
-    input.ignore(UINT_MAX, '\n');
+//    printf("Loaded value: %d", ac);
 }
 
 void cpu::load_addr() { // 2
@@ -107,16 +43,16 @@ void cpu::loadInd_addr() { // 3
 }
 
 
-void cpu::loadIdxX_addr() {
-
+void cpu::loadIdxX_addr(int addr) { // 4
+    ac = addr + y_reg;
 }
 
-void cpu::loadIdxY_addr() {
-
+void cpu::loadIdxY_addr(int addr) { // 5
+    ac = addr + y_reg;
 }
 
 void cpu::loadSpX() {
-
+    int addr = stack_pointer + x_reg;
 }
 
 void cpu::store_addr() {
@@ -128,16 +64,16 @@ void cpu::get() { // 8
     ac = rand() % 100 + 1;
 }
 
-void cpu::put_port() { // 9
-    int tmp;
-    input >> tmp;
-    if (tmp == 1) {
-
-    } else if (tmp == 2) {
-
+void cpu::put_port(int port) { // 9
+//    if(ac == 3){
+//        printf("\nLast Number\n");
+//    }
+    if (port == 1) {
+        printf("%d", ac);
+    } else if (port == 2) {
+        printf("%c", ac);
     }
 
-    input.ignore(UINT_MAX, '\n');
 }
 
 void cpu::addx() { // 10
@@ -180,52 +116,68 @@ void cpu::copy_from_sp() {
     ac = stack_pointer;
 }
 
-void cpu::jump_addr() {
-
+void cpu::jump_addr(int addr) {
+    program_counter = addr - 1;
 }
 
-void cpu::jump_if_equal() {
-
+void cpu::jump_if_equal(int addr) {
+    if (ac == 0)
+        program_counter = addr - 1;
 }
 
-void cpu::jump_not_equal() {
-
+void cpu::jump_not_equal(int addr) {
+    if (ac != 0)
+        program_counter = addr - 1;
 }
 
-void cpu::call_addr() {
+void cpu::call_addr(int addr) {
+    // adding to stack is done outside of this function
 
+    stack_pointer--;
+    program_counter = addr;
 }
 
 void cpu::ret() {
-
+    // no need to remove from stack, just mark it as clear.
+    // read the return address from the stack
+    stack_pointer++;
+//    program_counter = addr;
+    // program_counter will be set outside of this function
 }
 
 void cpu::incx() {
-
+    x_reg++;
 }
 
 void cpu::decx() {
-
+    x_reg--;
 }
 
-void cpu::pushAC() {
-
+int cpu::pushAC() {
+    stack_pointer--;
+    return ac;
 }
 
-void cpu::popAC() {
-
+void cpu::popAC(int accum) {
+    ac = accum;
+    stack_pointer++;
 }
 
 void cpu::syscall() {
 
+    interrputed = !interrputed;
+    program_counter = 1500 - 1;
+    kernelMode = true;
 }
 
-void cpu::retsyscall() {
 
+void cpu::retsyscall(int sp, int pc) {
+    interrputed = !interrputed;
+    stack_pointer = sp;
+    program_counter = pc;
+    kernelMode = false;
 }
 
-void cpu::end() {
-    // more housekeeping needs to be done probably
-exit(EXIT_SUCCESS);
+int cpu::getPC() {
+    return program_counter;
 }
-

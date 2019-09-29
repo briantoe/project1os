@@ -1,5 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/temp.dir/main.cpp.o"
+  "CMakeFiles/temp.dir/cpu.cpp.o"
+  "CMakeFiles/temp.dir/memory.cpp.o"
   "temp.pdb"
   "temp"
 )

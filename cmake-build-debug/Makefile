@@ -123,6 +123,33 @@ temp/fast:
 	$(MAKE) -f CMakeFiles/temp.dir/build.make CMakeFiles/temp.dir/build
 .PHONY : temp/fast
 
+cpu.o: cpu.cpp.o
+
+.PHONY : cpu.o
+
+# target to build an object file
+cpu.cpp.o:
+	$(MAKE) -f CMakeFiles/temp.dir/build.make CMakeFiles/temp.dir/cpu.cpp.o
+.PHONY : cpu.cpp.o
+
+cpu.i: cpu.cpp.i
+
+.PHONY : cpu.i
+
+# target to preprocess a source file
+cpu.cpp.i:
+	$(MAKE) -f CMakeFiles/temp.dir/build.make CMakeFiles/temp.dir/cpu.cpp.i
+.PHONY : cpu.cpp.i
+
+cpu.s: cpu.cpp.s
+
+.PHONY : cpu.s
+
+# target to generate assembly for a file
+cpu.cpp.s:
+	$(MAKE) -f CMakeFiles/temp.dir/build.make CMakeFiles/temp.dir/cpu.cpp.s
+.PHONY : cpu.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -150,6 +177,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/temp.dir/build.make CMakeFiles/temp.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+memory.o: memory.cpp.o
+
+.PHONY : memory.o
+
+# target to build an object file
+memory.cpp.o:
+	$(MAKE) -f CMakeFiles/temp.dir/build.make CMakeFiles/temp.dir/memory.cpp.o
+.PHONY : memory.cpp.o
+
+memory.i: memory.cpp.i
+
+.PHONY : memory.i
+
+# target to preprocess a source file
+memory.cpp.i:
+	$(MAKE) -f CMakeFiles/temp.dir/build.make CMakeFiles/temp.dir/memory.cpp.i
+.PHONY : memory.cpp.i
+
+memory.s: memory.cpp.s
+
+.PHONY : memory.s
+
+# target to generate assembly for a file
+memory.cpp.s:
+	$(MAKE) -f CMakeFiles/temp.dir/build.make CMakeFiles/temp.dir/memory.cpp.s
+.PHONY : memory.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -159,9 +213,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... temp"
 	@echo "... edit_cache"
+	@echo "... cpu.o"
+	@echo "... cpu.i"
+	@echo "... cpu.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... memory.o"
+	@echo "... memory.i"
+	@echo "... memory.s"
 .PHONY : help
 
 

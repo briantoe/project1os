@@ -84,7 +84,19 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/osboxes/CLionProjects/temp/cpu.cpp">
+			<Option target="temp"/>
+		</Unit>
+		<Unit filename="/home/osboxes/CLionProjects/temp/cpu.h">
+			<Option target="temp"/>
+		</Unit>
 		<Unit filename="/home/osboxes/CLionProjects/temp/main.cpp">
+			<Option target="temp"/>
+		</Unit>
+		<Unit filename="/home/osboxes/CLionProjects/temp/memory.cpp">
+			<Option target="temp"/>
+		</Unit>
+		<Unit filename="/home/osboxes/CLionProjects/temp/memory.h">
 			<Option target="temp"/>
 		</Unit>
 		<Unit filename="/home/osboxes/CLionProjects/temp/CMakeLists.txt">
